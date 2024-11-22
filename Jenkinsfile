@@ -26,16 +26,16 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
-            when {
-                branch 'main'
-            }
-            steps {
-                echo 'Deploying application to production...'
-                // Exemple de déploiement
+        // stage('Deploy') {
+        //     when {
+        //         branch 'main'
+        //     }
+        //     steps {
+        //         echo 'Deploying application to production...'
+        //         // Exemple de déploiement
              
-            }
-        }
+        //     }
+        // }
     }
 
     post {
