@@ -18,7 +18,7 @@ pipeline {
 
         stage('Build Application') {
             when {
-                expression { env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'release' }
+                expression { env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'test' }
             }
             steps {
                 echo 'Building application for production...'
@@ -26,16 +26,16 @@ pipeline {
             }
         }
 
-        // stage('Deploy') {
-        //     when {
-        //         branch 'main'
-        //     }
-        //     steps {
-        //         echo 'Deploying application to production...'
-        //         // Exemple de déploiement
+        stage('Deploy') {
+            when {
+                branch 'main'
+            }
+            steps {
+                echo 'Deploying application to production...'
+                // Exemple de déploiement
              
-        //     }
-        // }
+            }
+        }
     }
 
     post {
