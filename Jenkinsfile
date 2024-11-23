@@ -18,7 +18,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 echo 'Running tests...'
-                bat 'npm run test '
+                bat 'npm run test --watch=false --browsers=ChromeHeadless '
             }
         }
 
