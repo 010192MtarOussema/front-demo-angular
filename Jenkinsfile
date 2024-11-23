@@ -9,10 +9,16 @@ pipeline {
                 echo "Current branch: ${env.BRANCH_NAME}"
             }
         }
-
+        stage('Install Application') {
+            steps {
+                echo 'Running tests...'
+                bat: 'npm run install '
+            }
+        }
         stage('Run Tests') {
             steps {
                 echo 'Running tests...'
+                bat: 'npm run test '
             }
         }
 
@@ -34,13 +40,22 @@ pipeline {
             }
         }
     }
-
-    post {
-        success {
-            echo "Pipeline succeeded for branch: ${env.BRANCH_NAME}"
+    stages{
+        stage("A"){
+            steps{
+                echo "========executing A========"
+            }
         }
-        failure {
-            echo "Pipeline failed for branch: ${env.BRANCH_NAME}. Check logs for details."
+    }
+    post{
+        always{
+            echo "========always========"
+        }
+        success{
+            echo "========pipeline executed successfully ========"
+        }
+        failure{
+            echo "========pipeline execution failed========"
         }
     }
 }
