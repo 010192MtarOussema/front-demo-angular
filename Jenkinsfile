@@ -27,48 +27,13 @@ pipeline {
         stage('Build Application') {
             steps {
                 echo 'Building application for production...'
-                bat 'npm run build '
-            }
-        }
-
-        stage('Deploy Decision') {
-            when {
-                not {
-                    branch 'main'
-                }
-            }
-            steps {
-                script {
-                    def deploy = input(
-                        id: 'Deploy',
-                        message: "La branche actuelle est '${env.BRANCH_NAME}', voulez-vous déployer dans cet environnement ?",
-                        parameters: [
-                            booleanParam(
-                                defaultValue: false,
-                                description: 'Cochez pour confirmer le déploiement.',
-                                name: 'Deploy'
-                            )
-                        ]
-                    )
-
-                    if (!deploy) {
-                        error("Déploiement annulé par l'utilisateur pour la branche '${env.BRANCH_NAME}'.")
-                    } else {
-                        echo "Déploiement autorisé pour la branche '${env.BRANCH_NAME}'."
-                    }
-                }
+                bat 'npm run build -- --prod'
             }
         }
 
         stage('Deploy') {
-            when {
-                anyOf {
-                    branch 'main'
-                    expression { return inputWasApproved() }
-                }
-            }
             steps {
-                echo 'Deploying application...'
+                echo "Deploying application for branch '${env.BRANCH_NAME}'..."
                 sshPublisher(
                     publishers: [
                         sshPublisherDesc(
@@ -95,16 +60,13 @@ pipeline {
 
     post {
         always {
-            echo "========always========"
+            echo "Pipeline terminé, quelle que soit l'issue."
         }
         success {
-            echo "========pipeline executed successfully========"
+            echo "Pipeline exécuté avec succès."
         }
         failure {
-            echo "========pipeline execution failed========"
-        }
-        aborted {
-            echo "========pipeline execution was aborted========"
+            echo "Pipeline échoué."
         }
     }
 }
