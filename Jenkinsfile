@@ -27,11 +27,11 @@ pipeline {
         stage('Build Application') {
             steps {
                 echo 'Building application for production...'
-                bat 'npm run build '
+                bat 'npm run build'
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy to NGINX') {
             steps {
                 echo "Deploying application for branch '${env.BRANCH_NAME}'..."
                 sshPublisher(
@@ -41,15 +41,15 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     sourceFiles: 'dist/**/*', // Répertoire Angular généré après le build
-                                    remoteDirectory: '/usr/share/nginx/html', // Répertoire NGINX configuré manuellement
+                                    remoteDirectory: '/usr/share/nginx/html', // Répertoire par défaut de NGINX pour les fichiers web
                                     execCommand: '''
                                         echo "Clearing old application files..."
                                         sudo rm -rf /usr/share/nginx/html/*
                                         
-                                        echo "Deploying new application..."
+                                        echo "Deploying new application files..."
                                         sudo cp -r * /usr/share/nginx/html/
                                         
-                                        echo "Restarting NGINX service..."
+                                        echo "Restarting NGINX to apply changes..."
                                         sudo systemctl restart nginx
                                         
                                         echo "Deployment completed successfully."
