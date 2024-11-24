@@ -27,7 +27,7 @@ pipeline {
         stage('Build Application') {
             steps {
                 echo 'Building application for production...'
-                bat 'npm run build'
+                bat 'npm run build '
             }
         }
 
@@ -41,12 +41,17 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     sourceFiles: 'dist/**/*', // Répertoire Angular généré après le build
-                                    remoteDirectory: '/var/www/html', // Répertoire sur le serveur distant
+                                    remoteDirectory: '/usr/share/nginx/html', // Répertoire NGINX configuré manuellement
                                     execCommand: '''
                                         echo "Clearing old application files..."
-                                        rm -rf /var/www/html/*
+                                        sudo rm -rf /usr/share/nginx/html/*
+                                        
                                         echo "Deploying new application..."
-                                        mv dist/* /var/www/html/
+                                        sudo cp -r * /usr/share/nginx/html/
+                                        
+                                        echo "Restarting NGINX service..."
+                                        sudo systemctl restart nginx
+                                        
                                         echo "Deployment completed successfully."
                                     '''
                                 )
