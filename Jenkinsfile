@@ -37,15 +37,12 @@ pipeline {
                                     remoteDirectory: '/usr/share/nginx/html', // Répertoire cible sur le serveur CentOS
                                     execCommand: '''
                                         echo "Checking current files on server..."
-                                        ls -la /usr/share/nginx/html
 
                                         echo "Clearing old application files..."
                                         sudo rm -rf /usr/share/nginx/html/*
 
                                         echo "Deploying new application files..."
-                                        ls -la # Vérification des fichiers avant copie
                                         sudo cp -r * /usr/share/nginx/html/
-                                        ls -la /usr/share/nginx/html # Vérification des fichiers après copie
 
                                         echo "Restarting NGINX service..."
                                         sudo systemctl restart nginx
