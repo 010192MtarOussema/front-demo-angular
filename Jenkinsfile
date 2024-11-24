@@ -21,7 +21,6 @@ pipeline {
             steps {
                 echo 'Building Angular application for production...'
                 bat 'npm run build'
-                bat 'dir dist/front-demo-angular/browser' // Vérification des fichiers générés
             }
         }
 
