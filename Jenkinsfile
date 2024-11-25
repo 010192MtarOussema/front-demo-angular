@@ -29,7 +29,7 @@ pipeline {
                 branch 'main' // Exécuter uniquement sur la branche principale
             }
             steps {
-                echo "Deploying Angular application to NGINX..."
+                echo "Deploying Angular application to NGINX..." 
                 sshPublisher(
                     publishers: [
                         sshPublisherDesc(
