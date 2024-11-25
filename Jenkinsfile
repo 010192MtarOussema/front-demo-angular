@@ -25,9 +25,9 @@ pipeline {
         }
 
         stage('Deploy to NGINX') {
-            when {
-                branch 'main' // Exécuter uniquement sur la branche principale
-            }
+            // when {
+            //     branch 'main' // Exécuter uniquement sur la branche principale
+            // }
             steps {
                 echo "Deploying Angular application to NGINX..." 
                 sshPublisher(
