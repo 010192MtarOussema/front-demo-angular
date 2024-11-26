@@ -35,7 +35,7 @@ pipeline {
                       -Dsonar.test.inclusions=**/*.spec.ts ^
                       -Dsonar.javascript.lcov.reportPaths=coverage/front-demo-angular/lcov.info ^
                       -Dsonar.host.url=http://localhost:9000 ^
-                      -Dsonar.login=<VOTRE_TOKEN_SONAR>
+                      -Dsonar.login=squ_06259873b5dc5332bc6f04dd0a846de6634605d9
                     """
                 }
             }
