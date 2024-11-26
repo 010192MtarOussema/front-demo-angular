@@ -20,7 +20,6 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 bat """
-                C:\\Users\\WINDATA\\Desktop\\vms-tp-ci-cd\\sonarqube-10.7.0.96327\\bin\\windows-x86-64\\sonar-scanner.bat ^
                   -Dsonar.projectKey=angular-sonar-demo ^
                   -Dsonar.projectName=front-demo-angular ^
                   -Dsonar.projectVersion=1.0 ^
