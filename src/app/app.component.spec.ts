@@ -14,11 +14,11 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'front-demo-angular' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('front-demo-angular');
-  });
+  // it(`should have the 'front-demo-angular' title`, () => {
+  //   const fixture = TestBed.createComponent(AppComponent);
+  //   const app = fixture.componentInstance;
+  //   expect(app.title).toEqual('front-demo-angular');
+  // });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);

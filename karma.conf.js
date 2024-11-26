@@ -14,10 +14,7 @@ module.exports = function (config) {
     ],
     client: {
       jasmine: {
-        // you can add configuration options for Jasmine here
-        // the possible options are listed at https://jasmine.github.io/api/edge/Configuration.html
-        // for example, you can disable the random execution with `random: false`
-        // or set a specific seed with `seed: 4321`
+        // Optional configuration for Jasmine
       },
     },
     jasmineHtmlReporter: {
@@ -27,12 +24,13 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, './coverage/front-demo-angular'),
       subdir: '.',
       reporters: [
-        { type: 'html' },
-        { type: 'text-summary' }
+        { type: 'html' },        // Generates HTML report
+        { type: 'text-summary' }, // Console summary
+        { type: 'lcov' }         // Required for SonarQube
       ]
     },
-    singleRun: true, // Important pour CI/CD
-    autoWatch: false, // Désactiver la surveillance
+    singleRun: true, // Important for CI/CD
+    autoWatch: false, // Disable file watching
     reporters: ['progress', 'kjhtml'],
     browsers: ['ChromeHeadless'],
     restartOnFileChange: true
