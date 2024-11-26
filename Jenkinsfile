@@ -17,6 +17,30 @@ pipeline {
             }
         }
 
+        stage('Run Unit Tests') {
+            steps {
+                echo 'Running unit tests...'
+                bat 'npm run test -- --watch=false --code-coverage'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                echo 'Running SonarQube analysis...'
+                withSonarQubeEnv('SonarQube') { // Nom du serveur configuré dans Jenkins
+                    bat '''
+                        sonar-scanner.bat ^
+                        -Dsonar.projectKey=front-demo-angular ^
+                        -Dsonar.sources=src ^
+                        -Dsonar.exclusions=**/*.spec.ts,**/node_modules/** ^
+                        -Dsonar.tests=src ^
+                        -Dsonar.test.inclusions=**/*.spec.ts ^
+                        -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+                    '''
+                }
+            }
+        }
+
         stage('Build Angular Application') {
             steps {
                 echo 'Building Angular application for production...'
@@ -25,22 +49,17 @@ pipeline {
         }
 
         stage('Deploy to NGINX') {
-            // when {
-            //     branch 'main' // Exécuter uniquement sur la branche principale
-            // }
             steps {
-                echo "Deploying Angular application to NGINX..." 
+                echo "Deploying Angular application to NGINX..."
                 sshPublisher(
                     publishers: [
                         sshPublisherDesc(
-                            configName: 'VM-Centos', // Nom défini dans Publish Over SSH
+                            configName: 'VM-Centos',
                             transfers: [
                                 sshTransfer(
-                                    sourceFiles: '**/dist/front-demo-angular/browser/**/*', // Fichiers générés par Angular
-                                    remoteDirectory: '/usr/share/nginx/html', // Répertoire cible sur le serveur CentOS
+                                    sourceFiles: '**/dist/front-demo-angular/browser/**/*',
+                                    remoteDirectory: '/usr/share/nginx/html',
                                     execCommand: '''
-                                        echo "Checking current files on server..."
-
                                         echo "Clearing old application files..."
                                         sudo rm -rf /usr/share/nginx/html/*
 
