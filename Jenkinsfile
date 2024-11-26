@@ -29,7 +29,6 @@ pipeline {
                 // Exécuter l'analyse SonarQube avec la configuration fournie
                 withSonarQubeEnv('SonarQube') {
                     sh """
-                    ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
                       -Dsonar.projectKey=angular-sonar-demo \
                       -Dsonar.projectName=front-demo-angular \
                       -Dsonar.projectVersion=1.0 \
