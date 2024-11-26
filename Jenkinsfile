@@ -1,55 +1,58 @@
 pipeline {
     agent any
-
+    environment {
+        // Variables d'environnement pour SonarQube
+        SONAR_SCANNER_HOME = tool 'SonarQube Scanner' // Nom de l'installation configurée dans Jenkins
+    }
     stages {
         stage('Checkout Code') {
             steps {
-                echo 'Checking out code...'
-                checkout scm
+                // Récupérer le code source depuis le repository
+                git branch: 'main', url: 'https://your-repository-url.git'
             }
         }
-
         stage('Install Dependencies') {
             steps {
-                echo 'Installing dependencies...'
-                bat 'npm install'
+                // Installer les dépendances Node.js
+                sh 'npm install'
             }
         }
-
-        stage('Run Unit Tests') {
+        stage('Run Tests and Coverage') {
             steps {
-                echo 'Running unit tests with coverage...'
-                bat 'npm run test -- --watch=false --code-coverage'
+                // Exécuter les tests avec génération de la couverture
+                sh 'npm run test -- --watch=false --code-coverage'
             }
         }
-
         stage('SonarQube Analysis') {
             steps {
-                echo 'Running SonarQube analysis...'
-                withSonarQubeEnv('MySonarQubeServer') { // Nom défini dans Jenkins
-                    bat '''
-                        sonar-scanner.bat ^
-                        -Dsonar.projectKey=angular-sonar-demo ^
-                        -Dsonar.sources=src ^
-                        -Dsonar.exclusions=**/*.spec.ts,**/node_modules/** ^
-                        -Dsonar.tests=src ^
-                        -Dsonar.test.inclusions=**/*.spec.ts ^
-                        -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-                    '''
+                // Exécuter l'analyse SonarQube avec la configuration fournie
+                withSonarQubeEnv('SonarQube') {
+                    sh """
+                    ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+                      -Dsonar.projectKey=angular-sonar-demo \
+                      -Dsonar.projectName=front-demo-angular \
+                      -Dsonar.projectVersion=1.0 \
+                      -Dsonar.sources=src \
+                      -Dsonar.exclusions=**/*.spec.ts,**/node_modules/** \
+                      -Dsonar.tests=src \
+                      -Dsonar.test.inclusions=**/*.spec.ts \
+                      -Dsonar.javascript.lcov.reportPaths=C:/Users/WINDATA/Desktop/vms-tp-ci-cd/projet/front-demo-angular/coverage/front-demo-angular/lcov.info \
+                      -Dsonar.host.url=http://localhost:9000 \
+                      -Dsonar.login=squ_06259873b5dc5332bc6f04dd0a846de6634605d9
+                    """
                 }
             }
         }
     }
-
     post {
         always {
-            echo "Pipeline terminé quelle que soit l'issue."
+            echo 'Pipeline terminé.'
         }
         success {
-            echo "Pipeline exécuté avec succès."
+            echo 'Analyse SonarQube réussie.'
         }
         failure {
-            echo "Pipeline échoué."
+            echo 'Erreur dans le pipeline ou dans l\'analyse SonarQube.'
         }
     }
 }
