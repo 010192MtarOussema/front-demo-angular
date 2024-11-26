@@ -24,7 +24,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 // Exécuter l'analyse SonarQube avec la configuration fournie
-                withSonarQubeEnv('SonarQube') {
+                withSonarQubeEnv('sq1') {
                     bat 'npm run sonar'
                 }
             }
