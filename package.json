@@ -6,8 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "sonar": "sonar-scanner -Dsonar.projectKey=angular-sonar-demo -Dsonar.projectName=front-demo-angular -Dsonar.projectVersion=1.0 -Dsonar.sources=src -Dsonar.exclusions=**/*.spec.ts,**/node_modules/** -Dsonar.tests=src -Dsonar.test.inclusions=**/*.spec.ts -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info -Dsonar.host.url=http://localhost:9000 -Dsonar.login=squ_06259873b5dc5332bc6f04dd0a846de6634605d9"
-,
+"sonar": "sonar-scanner -Dsonar.projectKey=angular-sonar-demo -Dsonar.projectName=front-demo-angular -Dsonar.projectVersion=1.0 -Dsonar.sources=src -Dsonar.exclusions=**/*.spec.ts,**/node_modules/** -Dsonar.tests=src -Dsonar.test.inclusions=**/*.spec.ts -Dsonar.javascript.lcov.reportPaths=C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\end-demo-23-11-2024_test-jenkins\\coverage\\front-demo-angular\\lcov.info -Dsonar.host.url=http://localhost:9000 -Dsonar.login=squ_06259873b5dc5332bc6f04dd0a846de6634605d9",
     "test": "ng test"
   },
   "private": true,
