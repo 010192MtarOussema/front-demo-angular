@@ -1,6 +1,0 @@
-projectKey=angular-sonar-demo
-serverUrl=http://localhost:9000
-serverVersion=10.7.0.96327
-dashboardUrl=http://localhost:9000/dashboard?id=angular-sonar-demo
-ceTaskId=2b5856b3-1285-4436-ab65-fd6c29a0590c
-ceTaskUrl=http://localhost:9000/api/ce/task?id=2b5856b3-1285-4436-ab65-fd6c29a0590c
