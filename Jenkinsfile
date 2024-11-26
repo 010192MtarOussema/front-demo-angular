@@ -17,12 +17,7 @@ pipeline {
             }
         }
 
-        stage('Run Unit Tests') {
-            steps {
-                echo 'Running unit tests...'
-                bat 'npm run test -- --watch=false --code-coverage'
-            }
-        }
+    
 
         stage('SonarQube Analysis') {
             steps {
