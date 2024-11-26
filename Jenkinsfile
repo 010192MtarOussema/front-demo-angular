@@ -8,7 +8,8 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 // Récupérer le code source depuis le repository
-                git branch: 'main', url: 'https://your-repository-url.git'
+                 checkout scm
+
             }
         }
         stage('Install Dependencies') {
