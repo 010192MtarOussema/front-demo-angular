@@ -1,9 +1,6 @@
 pipeline {
     agent any
-    environment {
-        // Variables d'environnement pour SonarQube
-        SONAR_SCANNER_HOME = tool 'SonarQube Scanner' // Nom de l'installation configurée dans Jenkins
-    }
+
     stages {
         stage('Checkout Code') {
             steps {
