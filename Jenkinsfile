@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     environment {
-        SONAR_SCANNER_HOME = tool 'SonarQube Scanner' // Nom configuré dans Global Tool Configuration
+        SONAR_SCANNER_HOME = tool 'sq1' // Utilisez le nom configuré dans Global Tool Configuration
     }
 
     stages {
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
                 checkout scm
             }
@@ -16,14 +16,14 @@ pipeline {
                 bat 'npm install'
             }
         }
-        stage('Run Tests and Generate Coverage') {
+        stage('Run Tests and Coverage') {
             steps {
                 bat 'npm run test -- --watch=false --code-coverage'
             }
         }
-        stage('Scan') { // Étape d'analyse SonarQube
+        stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sq1') { // 'sq1' doit correspondre au nom du serveur configuré dans Jenkins
+                withSonarQubeEnv('sq1') { // 'sq1' correspond au serveur SonarQube configuré dans Jenkins
                     bat """
                     ${SONAR_SCANNER_HOME}\\bin\\sonar-scanner.bat ^
                       -Dsonar.projectKey=angular-sonar-demo ^
@@ -35,7 +35,7 @@ pipeline {
                       -Dsonar.test.inclusions=**/*.spec.ts ^
                       -Dsonar.javascript.lcov.reportPaths=coverage/front-demo-angular/lcov.info ^
                       -Dsonar.host.url=http://localhost:9000 ^
-                      -Dsonar.login=squ_06259873b5dc5332bc6f04dd0a846de6634605d9
+                      -Dsonar.login=<VOTRE_TOKEN_SONAR>
                     """
                 }
             }
@@ -44,10 +44,10 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline terminé avec succès.'
+            echo 'Analyse SonarQube réussie.'
         }
         failure {
-            echo 'Erreur dans l’analyse SonarQube.'
+            echo 'Erreur dans l\'analyse SonarQube.'
         }
     }
 }
